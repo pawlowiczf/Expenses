@@ -38,3 +38,15 @@ func (q *Queries) GetCategory(ctx context.Context, id int64) (Category, error) {
 	err := row.Scan(&i.ID, &i.Name, &i.Description)
 	return i, err
 }
+
+const getCategoryName = `-- name: GetCategoryName :one
+SELECT name from categories 
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetCategoryName(ctx context.Context, id int64) (string, error) {
+	row := q.db.QueryRowContext(ctx, getCategoryName, id)
+	var name string
+	err := row.Scan(&name)
+	return name, err
+}

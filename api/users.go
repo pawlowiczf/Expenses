@@ -95,12 +95,13 @@ func (server *Server) LoginUser(ctx *gin.Context) {
 		return 
 	}
 
-	// TODO: check accessToken duration 
 	accessToken, accessPayload, err := server.maker.CreateToken(user.ID, user.Email, time.Hour)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return 
 	}
+
+	ctx.SetCookie("access_token_bearer", accessToken, 10 * 60, "/", "localhost", false, true)
 
 	loginResponse := loginUserResponse{
 		User:                 newUserResponse(user),
@@ -127,3 +128,4 @@ func newUserResponse(user db.User) userResponse {
 		CreatedAt:         user.CreatedAt,
 	}
 }
+

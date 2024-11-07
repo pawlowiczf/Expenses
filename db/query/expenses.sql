@@ -7,3 +7,6 @@ RETURNING *;
 SELECT * FROM expenses
 WHERE id = $1 LIMIT 1; 
 
+-- name: GetUserExpenses :many 
+SELECT * FROM expenses 
+WHERE user_id = $1; 

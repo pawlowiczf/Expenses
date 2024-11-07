@@ -7,3 +7,6 @@ RETURNING *;
 SELECT * FROM categories
 WHERE id = $1 LIMIT 1; 
 
+-- name: GetCategoryName :one 
+SELECT name from categories 
+WHERE id = $1 LIMIT 1;
